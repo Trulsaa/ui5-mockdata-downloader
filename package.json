@@ -1,0 +1,30 @@
+{
+  "name": "mockdata_downloader",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "bin": {
+    "mockdata_downloader": "bin/index.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "eslint-config-standard": "^11.0.0",
+    "eslint-plugin-import": "^2.12.0",
+    "eslint-plugin-node": "^6.0.1",
+    "eslint-plugin-promise": "^3.8.0",
+    "eslint-plugin-standard": "^3.1.0"
+  },
+  "dependencies": {
+    "base-64": "^0.1.0",
+    "dotenv": "^5.0.1",
+    "node-fetch": "^2.1.2",
+    "pretty-data": "^0.40.0",
+    "request": "^2.87.0",
+    "request-promise-native": "^1.0.5",
+    "xml2js": "^0.4.19"
+  }
+}
