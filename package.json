@@ -1,15 +1,15 @@
 {
-  "name": "mockdata_downloader",
-  "version": "1.0.0",
+  "name": "ui5-mockdata-downloader",
+  "version": "0.1.0",
   "description": "",
   "main": "index.js",
   "bin": {
-    "mockdata_downloader": "bin/index.js"
+    "ui5-mockdata-downloader": "bin/index.js"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+  "author": "Truls Aagaard",
   "license": "ISC",
   "devDependencies": {
     "eslint-config-standard": "^11.0.0",
