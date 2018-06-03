@@ -1,6 +1,4 @@
-#!/usr/bin/env node
-
-const downloadAllFromSource = require("../lib/downloadAllFromSource.js")
+const downloadAllFromSource = require("./lib/downloadAllFromSource.js");
 const manifest = require(process.cwd() + "/webapp/manifest.json");
 
 require("dotenv").config();
@@ -14,4 +12,4 @@ const run = () => {
   }
 };
 
-run();
+module.exports = run;
