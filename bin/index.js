@@ -28,8 +28,9 @@ const downloadAllFromSource = async oSource => {
   const localUri = oSource.settings.localUri,
     localUriParsed = `webapp/${localUri
       .split("/")
-      .splice(0, localUri.length - 1)
+      .splice(0, localUri.split("/").length - 1)
       .join("/")}`;
+
   files.createDirIfNonExistan(localUriParsed);
 
   // save metadata.xml
