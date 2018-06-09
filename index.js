@@ -8,7 +8,7 @@ const run = async () => {
     aSourceNames = Object.keys(oSources);
 
   for (const source of aSourceNames) {
-    await downloadAllFromSource(oSources[source]);
+    await downloadAllFromSource.downloadAllFromSource(oSources[source]);
   }
 };
 

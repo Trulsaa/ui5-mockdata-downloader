@@ -10,7 +10,7 @@ const run = () => {
     aSourceNames = Object.keys(oSources);
 
   for (const source of aSourceNames) {
-    downloadAllFromSource(oSources[source]);
+    downloadAllFromSource.downloadAllFromSource(oSources[source]);
   }
 };
 
