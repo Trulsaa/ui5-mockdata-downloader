@@ -22,7 +22,7 @@ export default {
     // Download metadata.xml
     const metadataFile = await api.getMetadata(oSourceParsed);
 
-    const aEntitySets = parse.entityContainer(metadataFile);
+    // const aEntitySets = parse.entityContainer(metadataFile);
     // parse entity type to get entity sets
     // const aEntitySets = parse.entityTypes(metadataFile[0]);
 
@@ -70,13 +70,13 @@ export default {
     const localUriParsed = files.parseLocalUri(oSourceParsed.settings.localUri);
     files.createDirIfNonExistan(localUriParsed);
 
-    // // save metadata.xml
-    // files.writeToFile({
-    //   content: pd.xml(metadataFile),
-    //   folderPath: localUriParsed,
-    //   name: "metadata",
-    //   filetype: "xml"
-    // });
+    // save metadata.xml
+    files.writeToFile({
+      content: pd.xml(metadataFile.file),
+      folderPath: localUriParsed,
+      name: "metadata",
+      filetype: "xml"
+    });
 
     // for (const file of Object.keys(allNavFiles)) {
     //   files.writeToFile({
