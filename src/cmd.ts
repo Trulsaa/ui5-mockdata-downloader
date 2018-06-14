@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-const downloadAllFromSource = require("../lib/downloadAllFromSource.js")
+import downloadAllFromSource from "./downloadAllFromSource"
 const manifest = require(process.cwd() + "/webapp/manifest.json");
 
 require("dotenv").config();
