@@ -51,8 +51,7 @@ interface ParsedXML {
 }
 
 export default {
-  entityTypes: function(metadataXML: FileProps) {
-    const metadataJSON = this.parseXML(metadataXML.file);
+  entityTypes: function(metadataJSON: ParsedXML) {
     if (metadataJSON) {
       const entityTypes =
         metadataJSON["edmx:Edmx"]["edmx:DataServices"][0].Schema[0].EntityType;
@@ -68,24 +67,17 @@ export default {
     }
   },
 
-  entityContainer: function(metadataXML: {
-    file: string;
-    name: string;
-    json?: boolean;
-  }) {
-    const metadataJSON = this.parseXML(metadataXML.file);
-    if (metadataJSON) {
-      const aEntitySets =
-        metadataJSON["edmx:Edmx"]["edmx:DataServices"][0].Schema[0]
-          .EntityContainer[0].EntitySet;
-      return aEntitySets.map(set => {
-        return {
-          Name: set.$.Name,
-          EntityType: set.$.EntityType.split(".")[1],
-          NameSpace: set.$.EntityType.split(".")[0]
-        };
-      });
-    }
+  entityContainer: function(metadataJSON: ParsedXML) {
+    const entitySets =
+      metadataJSON["edmx:Edmx"]["edmx:DataServices"][0].Schema[0]
+        .EntityContainer[0].EntitySet;
+    return entitySets.map(set => {
+      return {
+        name: set.$.Name,
+        entityType: set.$.EntityType.split(".")[1],
+        nameSpace: set.$.EntityType.split(".")[0]
+      };
+    });
   },
 
   parseLocalUri: (localUri: string) => {
@@ -105,15 +97,15 @@ export default {
     };
   },
 
-  source: function(oSource: RawSource) {
+  source: function(source: RawSource) {
     return {
-      uri: oSource.uri,
-      path: this.parseUri(oSource.uri).path,
-      nameSpace: this.parseUri(oSource.uri).nameSpace,
-      type: oSource.type,
+      uri: source.uri,
+      path: this.parseUri(source.uri).path,
+      nameSpace: this.parseUri(source.uri).nameSpace,
+      type: source.type,
       settings: {
-        odataVersion: oSource.settings.odataVersion,
-        localUri: oSource.settings.localUri
+        odataVersion: source.settings.odataVersion,
+        localUri: source.settings.localUri
       }
     };
   },
@@ -126,11 +118,12 @@ export default {
   //   }
   // }
 
-  parseXML: (xml: string): ParsedXML | null => {
+  XML: (xml: string): ParsedXML | null => {
     let oJson = null;
     parseString(xml, function(err, result) {
       if (err) {
         console.log("Error parsing metadata: ", err);
+        process.exit(1);
       } else {
         oJson = result;
       }

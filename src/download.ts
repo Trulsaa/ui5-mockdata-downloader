@@ -39,8 +39,12 @@ export default {
     return request(options);
   },
 
-  downloadFile: async function(parameters: DownloadParams) {
-    const file = await this.startDownload(parameters);
+  file: async function(parameters: DownloadParams) {
+    const file = await this.startDownload(parameters).catch((err: any) => {
+      console.log(`Error Downloading ${parameters.name}`)
+      console.error(err);
+      process.exit(1);
+    });
     return {
       file: file,
       name: parameters.name,

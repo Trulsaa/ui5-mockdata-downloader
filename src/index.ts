@@ -4,11 +4,11 @@ const manifest = require(process.cwd() + "/webapp/manifest.json");
 require("dotenv").config();
 
 const run = async () => {
-  const oSources = manifest["sap.app"].dataSources,
-    aSourceNames = Object.keys(oSources);
+  const sources = manifest["sap.app"].dataSources,
+    sourceNames = Object.keys(sources);
 
-  for (const source of aSourceNames) {
-    await downloadAllFromSource.downloadAllFromSource(oSources[source]);
+  for (const source of sourceNames) {
+    await downloadAllFromSource.downloadAllFromSource(sources[source]);
   }
 };
 

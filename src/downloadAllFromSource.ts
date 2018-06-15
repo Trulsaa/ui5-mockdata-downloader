@@ -15,37 +15,54 @@ interface RawSource {
 }
 
 export default {
-  downloadAllFromSource: async function(oSource: RawSource) {
+  downloadAllFromSource: async function(source: RawSource) {
     // Parse source
-    const oSourceParsed = parse.source(oSource);
+    const parsedSource = parse.source(source);
 
     // Download metadata.xml
-    const metadataFile = await api.getMetadata(oSourceParsed);
+    const metadataFile = await api.getMetadata(parsedSource);
 
-    const aEntitySets = parse.entityContainer(metadataFile);
+    // parse metadata file into JSON
+    const metadataJSON = parse.XML(metadataFile.file);
 
+    // Describe all sets
+    let entitySets
+    if (metadataJSON) {
+      entitySets = parse.entityContainer(metadataJSON);
+    } else {
+      console.log(`metadataJSON is ${metadataJSON}`)
+    }
+
+    // Download all sets
+    let entitySetFiles;
+    if (entitySets) {
+      entitySetFiles = await api.getEntitySets(entitySets, parsedSource);
+    } else {
+      console.log(`entitySets is ${entitySets}`)
+    }
+
+    // Get relationship between nav sets and sets
+    // Finne alle Nav Set
+    // Finne alle nav set per head set
+    // kombinere set
     // Download all EntitySets
-    // const aEntitySetsFiles = await api.getEntitySets(
-    //   aEntitySets,
-    //   oSourceParsed
-    // );
 
     /*
     // Get key
-    const selectedKey = aEntitySets[0].Key;
+    const selectedKey = entitySets[0].Key;
 
     // Get values for keys
     const navKeys = setFiles[0].d.results.map(entry => entry[selectedKey]);
 
     // Create parameters to download navfiles
     const navParameters = {};
-    aEntitySets[0].NavigationProperty.forEach(nav => {
+    entitySets[0].NavigationProperty.forEach(nav => {
       // nav parameters
       const curNavParameters = navKeys.map(key => {
         return {
-          uri: oSourceParsed.uri,
+          uri: parsedSource.uri,
           params: `/${
-            aEntitySets[0].Name
+            entitySets[0].Name
           }Set('${key}')/${nav}/?$format=json&sap-client=200&sap-language=EN`
         };
       });
@@ -65,7 +82,7 @@ export default {
     // Write files
     //
     // Create dir to store all source files
-    const localUriParsed = files.parseLocalUri(oSourceParsed.settings.localUri);
+    const localUriParsed = files.parseLocalUri(parsedSource.settings.localUri);
     files.createDirIfNonExistan(localUriParsed);
 
     // save metadata.xml
