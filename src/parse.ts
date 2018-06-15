@@ -1,5 +1,27 @@
 import { parseString } from "xml2js";
 
+interface NavigationProperty {
+  name: string;
+  url: string;
+}
+interface Map {
+  parsedAssosiationSets: [
+    {
+      EntitySet: string;
+      Role: string;
+      association: string;
+      name: string;
+    }
+  ];
+  parsedAssosiations: [
+    {
+      Name: string;
+      Role: string;
+      Type: string;
+    }
+  ];
+}
+
 interface RawSource {
   uri: string;
   type: string;
@@ -19,6 +41,15 @@ interface EntityType {
 
 interface FileProps {
   file: string;
+  name: string;
+}
+
+interface FileJson {
+  file: {
+    d: {
+      results: [any];
+    };
+  };
   name: string;
 }
 
@@ -132,6 +163,50 @@ export default {
       parsedAssosiations,
       parsedAssosiationSets
     };
+  },
+
+  getNavigations: function(result: any[]) {
+    return result.reduce((accum, obj) => {
+      const navigations = Object.keys(obj)
+        .filter(key => obj[key].__deferred)
+        .map(name => {
+          return {
+            name: name,
+            url: obj[name].__deferred.uri
+          };
+        });
+      if (navigations.length) {
+        return accum.concat(navigations);
+      }
+      return;
+    }, []);
+  },
+
+  navigations: function(entitySetFiles: FileJson[]) {
+    return entitySetFiles
+      .map(file => {
+        return this.getNavigations(file.file.d.results);
+      })
+      .reduce((accum, file) => {
+        if (file && file.length) {
+          return accum.concat(file);
+        }
+        return accum;
+      }, []);
+  },
+
+  getSetFromNavMap: function(map: Map, navigation: NavigationProperty) {
+    const association = map.parsedAssosiations.find(ass =>
+      ass.Type.includes(navigation.name)
+    );
+    if (association) {
+      const associationSet = map.parsedAssosiationSets.find(
+        set => set.Role === association.Role
+      );
+      if (associationSet) {
+        return associationSet.EntitySet
+      }
+    }
   },
 
   parseLocalUri: (localUri: string) => {

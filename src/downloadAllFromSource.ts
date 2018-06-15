@@ -14,6 +14,24 @@ interface RawSource {
   };
 }
 
+interface Map {
+  parsedAssosiationSets: [
+    {
+      EntitySet: string;
+      Role: string;
+      association: string;
+      name: string;
+    }
+  ];
+  parsedAssosiations: [
+    {
+      Name: string;
+      Role: string;
+      Type: string;
+    }
+  ];
+}
+
 export default {
   downloadAllFromSource: async function(source: RawSource) {
     // Parse source
@@ -25,7 +43,7 @@ export default {
     // parse metadata file into JSON
     const metadataJSON = parse.XML(metadataFile.file);
 
-    let entitySets, navigationMap;
+    let entitySets, navigationMap: any;
     if (metadataJSON) {
       // Describe all sets
       entitySets = parse.entitySet(metadataJSON);
@@ -43,9 +61,20 @@ export default {
       console.log(`entitySets is ${entitySets}`);
     }
 
-    // Get relationship between nav sets and sets
-    // Finne alle Nav Set
-    // Finne alle nav set per head set
+    // Get all Navigations and add type
+    let navigations;
+    if (entitySetFiles) {
+      navigations = parse
+        .navigations(entitySetFiles).map((nav: {name: string, url: string}) => {
+          return {
+            name: nav.name,
+            url: nav.url,
+            set: parse.getSetFromNavMap(navigationMap, nav)
+          }
+        })
+    }
+
+    // Add set to navigations
     // kombinere set
     // Download all EntitySets
 
