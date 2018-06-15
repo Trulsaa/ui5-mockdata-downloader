@@ -22,9 +22,7 @@ export default {
     // Download metadata.xml
     const metadataFile = await api.getMetadata(oSourceParsed);
 
-    // const aEntitySets = parse.entityContainer(metadataFile);
-    // parse entity type to get entity sets
-    // const aEntitySets = parse.entityTypes(metadataFile[0]);
+    const aEntitySets = parse.entityContainer(metadataFile);
 
     // Download all EntitySets
     // const aEntitySetsFiles = await api.getEntitySets(
