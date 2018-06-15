@@ -25,12 +25,14 @@ export default {
     // parse metadata file into JSON
     const metadataJSON = parse.XML(metadataFile.file);
 
-    // Describe all sets
-    let entitySets
+    let entitySets, navigationMap;
     if (metadataJSON) {
-      entitySets = parse.entityContainer(metadataJSON);
+      // Describe all sets
+      entitySets = parse.entitySet(metadataJSON);
+      // Describe all NavigationPropertys
+      navigationMap = parse.associationMap(metadataJSON);
     } else {
-      console.log(`metadataJSON is ${metadataJSON}`)
+      console.log(`metadataJSON is ${metadataJSON}`);
     }
 
     // Download all sets
@@ -38,7 +40,7 @@ export default {
     if (entitySets) {
       entitySetFiles = await api.getEntitySets(entitySets, parsedSource);
     } else {
-      console.log(`entitySets is ${entitySets}`)
+      console.log(`entitySets is ${entitySets}`);
     }
 
     // Get relationship between nav sets and sets

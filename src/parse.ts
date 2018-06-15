@@ -29,9 +29,31 @@ interface EntitySet {
   };
 }
 
+interface AssociationSet {
+  $: {
+    Association: string;
+    Name: string;
+  };
+  End: [AssociationSetEnd];
+}
+
 interface NavProp {
   $: {
     Name: string;
+  };
+}
+
+interface AssociationSetEnd {
+  $: {
+    EntitySet: string;
+    Role: string;
+  };
+}
+
+interface AssociationEnd {
+  $: {
+    Role: string;
+    Type: string;
   };
 }
 
@@ -42,7 +64,10 @@ interface ParsedXML {
         Schema: [
           {
             EntityType: [EntityType];
-            EntityContainer: [{ EntitySet: [EntitySet] }];
+            EntityContainer: [
+              { EntitySet: [EntitySet]; AssociationSet: [AssociationSet] }
+            ];
+            Association: [{ $: { Name: string }; End: [AssociationEnd] }];
           }
         ];
       }
@@ -67,7 +92,7 @@ export default {
     }
   },
 
-  entityContainer: function(metadataJSON: ParsedXML) {
+  entitySet: function(metadataJSON: ParsedXML) {
     const entitySets =
       metadataJSON["edmx:Edmx"]["edmx:DataServices"][0].Schema[0]
         .EntityContainer[0].EntitySet;
@@ -78,6 +103,35 @@ export default {
         nameSpace: set.$.EntityType.split(".")[0]
       };
     });
+  },
+
+  associationMap: function(metadataJSON: ParsedXML) {
+    const associations =
+      metadataJSON["edmx:Edmx"]["edmx:DataServices"][0].Schema[0].Association;
+    const parsedAssosiations = associations.map(ass => {
+      return {
+        Name: ass.$.Name,
+        Role: ass.End[1].$.Role,
+        Type: ass.End[1].$.Type
+      };
+    });
+
+    const associationSets =
+      metadataJSON["edmx:Edmx"]["edmx:DataServices"][0].Schema[0]
+        .EntityContainer[0].AssociationSet;
+    const parsedAssosiationSets = associationSets.map(set => {
+      return {
+        association: set.$.Association,
+        name: set.$.Name,
+        EntitySet: set.End[1].$.EntitySet,
+        Role: set.End[1].$.Role
+      };
+    });
+
+    return {
+      parsedAssosiations,
+      parsedAssosiationSets
+    };
   },
 
   parseLocalUri: (localUri: string) => {
