@@ -1,4 +1,5 @@
 import { WriteFileParams } from "./interfaces";
+import { promises as fsPromises } from "fs";
 import fs from "fs";
 import path from "path";
 
@@ -23,7 +24,7 @@ export default {
     }, []);
   },
 
-  createDirIfNonExistan: (dir: string) => {
+  createDirIfNonExistant: async (dir: string) => {
     const dirs = dir
       .split("/")
       .reduce(
@@ -38,9 +39,7 @@ export default {
 
     for (const dir of dirs) {
       if (!fs.existsSync(dir)) {
-        fs.mkdir(path.resolve(dir), error => {
-          if (error !== null) console.error(error);
-        });
+        await fsPromises.mkdir(path.resolve(dir));
       }
     }
   },

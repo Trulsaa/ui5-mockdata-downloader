@@ -42,7 +42,7 @@ export default {
     };
   },
 
-  downloadFiles: async function(paramseters: DownloadParams[]) {
+  files: async function(paramseters: DownloadParams[]) {
     const downloads = [];
     for (const fileParameters of paramseters) {
       const promiseOfFile = this.startDownload({ ...fileParameters });

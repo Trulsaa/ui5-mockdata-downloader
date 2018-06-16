@@ -37,7 +37,7 @@ export default {
       entityTypes,
       parsedSource
     );
-    return download.downloadFiles(entityParameters);
+    return download.files(entityParameters);
   },
 
   _createNavParameters: function(
@@ -61,6 +61,6 @@ export default {
       navigationPropertys,
       parsedSource
     );
-    return download.downloadFiles(navParameters)
+    return download.files(navParameters)
   }
 };
