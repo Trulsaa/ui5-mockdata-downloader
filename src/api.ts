@@ -17,6 +17,12 @@ interface ParseSource {
   };
 }
 
+interface NavigationProperty {
+  name: string;
+  set: string;
+  url: string;
+}
+
 export default {
   getMetadata: (parsedSource: ParseSource) => {
     // Download metadata
@@ -54,5 +60,29 @@ export default {
       parsedSource
     );
     return download.downloadFiles(entityParameters);
+  },
+
+  createNavParameters: function(
+    navigationPropertys: NavigationProperty[],
+    parsedSource: ParseSource
+  ) {
+    return navigationPropertys.map(nav => {
+      return {
+        url: nav.url.split("//")[1],
+        params: '/?$format=json&sap-client=200&sap-language=EN',
+        name: nav.set
+      }
+    })
+  },
+
+  getNavigationSets: function(
+    navigationPropertys: NavigationProperty[],
+    parsedSource: ParseSource
+  ) {
+    const navParameters = this.createNavParameters(
+      navigationPropertys,
+      parsedSource
+    );
+    return download.downloadFiles(navParameters)
   }
 };

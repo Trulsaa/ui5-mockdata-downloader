@@ -3,10 +3,11 @@ import base64 from "base-64";
 import request from "request-promise-native";
 
 interface DownloadParams {
-  path: string;
-  nameSpace: string;
-  params: string;
   name: string;
+  params: string;
+  path?: string;
+  nameSpace?: string;
+  url?: string;
   username?: string;
   password?: string;
   protocol?: string;
@@ -19,13 +20,14 @@ export default {
     path,
     nameSpace,
     params,
+    url,
     username = process.env.SAPUSERNAME,
     password = process.env.SAPPASSWORD,
     protocol = "https://",
     domainName = process.env.SAPDOMAINNAME,
     json = true
   }: DownloadParams) => {
-    const url = `${protocol}${domainName}${path}/${nameSpace}/${params}`;
+    url = url ? `${protocol}${url}${params}` : `${protocol}${domainName}${path}/${nameSpace}/${params}`;
 
     const options = {
       method: "GET",
@@ -41,7 +43,7 @@ export default {
 
   file: async function(parameters: DownloadParams) {
     const file = await this.startDownload(parameters).catch((err: any) => {
-      console.log(`Error Downloading ${parameters.name}`)
+      console.log(`Error Downloading ${parameters.name}`);
       console.error(err);
       process.exit(1);
     });

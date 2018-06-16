@@ -65,49 +65,21 @@ export default {
     let navigations;
     if (entitySetFiles) {
       navigations = parse
-        .navigations(entitySetFiles).map((nav: {name: string, url: string}) => {
+        .navigations(entitySetFiles)
+        .map((nav: { name: string; url: string }) => {
           return {
             name: nav.name,
             url: nav.url,
             set: parse.getSetFromNavMap(navigationMap, nav)
-          }
-        })
+          };
+        });
     }
 
-    // Add set to navigations
+    // Download all navigations
+    const navigationFiles = await api.getNavigationSets(navigations, parsedSource);
+
     // kombinere set
-    // Download all EntitySets
 
-    /*
-    // Get key
-    const selectedKey = entitySets[0].Key;
-
-    // Get values for keys
-    const navKeys = setFiles[0].d.results.map(entry => entry[selectedKey]);
-
-    // Create parameters to download navfiles
-    const navParameters = {};
-    entitySets[0].NavigationProperty.forEach(nav => {
-      // nav parameters
-      const curNavParameters = navKeys.map(key => {
-        return {
-          uri: parsedSource.uri,
-          params: `/${
-            entitySets[0].Name
-          }Set('${key}')/${nav}/?$format=json&sap-client=200&sap-language=EN`
-        };
-      });
-      navParameters[nav] = curNavParameters;
-    });
-
-    const allNavFiles = {};
-    for (const nav of Object.keys(navParameters)) {
-      curNavFiles = await download.downloadFiles({
-        paramseters: navParameters[nav]
-      });
-      allNavFiles[nav] = files.reduceFilesToOne(curNavFiles);
-    }
-    */
 
     //
     // Write files
