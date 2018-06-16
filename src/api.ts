@@ -15,7 +15,7 @@ export default {
     return download.file(metadataParamseters);
   },
 
-  createEntityDownloadParams: function(
+  _createEntityDownloadParams: function(
     entityTypes: ParsedEntityType[],
     parsedSource: ParsedSource
   ) {
@@ -33,14 +33,14 @@ export default {
     entityTypes: ParsedEntityType[],
     parsedSource: ParsedSource
   ) {
-    const entityParameters = this.createEntityDownloadParams(
+    const entityParameters = this._createEntityDownloadParams(
       entityTypes,
       parsedSource
     );
     return download.downloadFiles(entityParameters);
   },
 
-  createNavParameters: function(
+  _createNavParameters: function(
     navigationPropertys: NavigationDownloadProperty[],
     parsedSource: ParsedSource
   ) {
@@ -57,7 +57,7 @@ export default {
     navigationPropertys: NavigationDownloadProperty[],
     parsedSource: ParsedSource
   ) {
-    const navParameters = this.createNavParameters(
+    const navParameters = this._createNavParameters(
       navigationPropertys,
       parsedSource
     );

@@ -44,7 +44,7 @@ export default {
           return {
             name: nav.name,
             url: nav.url,
-            set: parse.getSetFromNavMap(navigationMap, nav)
+            set: parse.setFromNavMap(navigationMap, nav)
           };
         });
     }
@@ -82,7 +82,7 @@ export default {
     // Write files
     //
     // Create dir to store all source files
-    const localUriParsed = files.parseLocalUri(parsedSource.settings.localUri);
+    const localUriParsed = parse.localUri(parsedSource.settings.localUri);
     files.createDirIfNonExistan(localUriParsed);
 
     // save metadata.xml

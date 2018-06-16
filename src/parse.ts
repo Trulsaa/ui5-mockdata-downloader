@@ -66,7 +66,7 @@ export default {
     };
   },
 
-  getNavigations: function(result: any[]) {
+  _getNavigations: function(result: any[]) {
     return result.reduce((accum, obj) => {
       const navigations = Object.keys(obj)
         .filter(key => obj[key].__deferred)
@@ -86,7 +86,7 @@ export default {
   navigations: function(entitySetFiles: FileJson[]) {
     return entitySetFiles
       .map(file => {
-        return this.getNavigations(file.file.d.results);
+        return this._getNavigations(file.file.d.results);
       })
       .reduce((accum, file) => {
         if (file && file.length) {
@@ -96,7 +96,7 @@ export default {
       }, []);
   },
 
-  getSetFromNavMap: function(map: Map, navigation: NavigationProperty) {
+  setFromNavMap: function(map: Map, navigation: NavigationProperty) {
     const association = map.parsedAssosiations.find(ass =>
       ass.Type.includes(navigation.name)
     );
@@ -110,7 +110,7 @@ export default {
     }
   },
 
-  parseLocalUri: (localUri: string) => {
+  localUri: (localUri: string) => {
     return `webapp/${localUri
       .split("/")
       .splice(0, localUri.split("/").length - 1)
