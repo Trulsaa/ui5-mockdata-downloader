@@ -23,13 +23,6 @@ export default {
     }, []);
   },
 
-  parseLocalUri: (localUri: string) => {
-    return `webapp/${localUri
-      .split("/")
-      .splice(0, localUri.split("/").length - 1)
-      .join("/")}`;
-  },
-
   createDirIfNonExistan: (dir: string) => {
     const dirs = dir
       .split("/")
