@@ -1,6 +1,7 @@
 import { RawSource, ParsedXML, NavigationMap } from "./interfaces";
 import { pd } from "pretty-data";
 
+import { handleError } from "./errorHandling";
 import files from "./files";
 import download from "./download";
 import parse from "./parse";
@@ -77,28 +78,38 @@ export default async function(source: RawSource) {
       };
     });
   }
+
   //
   // Write files
   //
   // Create dir to store all source files
   const localUriParsed = parse.localUri(parsedSource.settings.localUri);
-  files.createDirIfNonExistan(localUriParsed);
+  await handleError(
+    files.createDirIfNonExistant(localUriParsed),
+    "Unable to create directorys"
+  );
 
   // save metadata.xml
-  files.writeToFile({
-    content: pd.xml(metadataFile.file),
-    folderPath: localUriParsed,
-    name: "metadata",
-    filetype: "xml"
-  });
+  handleError(
+    files.writeToFile({
+      content: pd.xml(metadataFile.file),
+      folderPath: localUriParsed,
+      name: "metadata",
+      filetype: "xml"
+    }),
+    "Unable to save metadata file"
+  );
 
   if (uniqueCombinedFiles) {
     for (const file of uniqueCombinedFiles) {
-      files.writeToFile({
-        content: JSON.stringify(file.file, null, 2),
-        folderPath: localUriParsed,
-        name: file.name
-      });
+      handleError(
+        files.writeToFile({
+          content: JSON.stringify(file.file, null, 2),
+          folderPath: localUriParsed,
+          name: file.name
+        }),
+        `Unable to save ${file.name} file`
+      );
     }
   }
 }
