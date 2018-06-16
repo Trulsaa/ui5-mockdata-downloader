@@ -81,8 +81,8 @@ export default {
       parsedSource
     );
 
-    // Combine the sets
-    let allFiles: any[], allSets, combinedFiles;
+    // Combine the sets and remove duplicates
+    let allFiles: any[], allSets, combinedFiles, uniqueCombinedFiles;
     if (entitySetFiles) {
       allFiles = [...navigationFiles, ...entitySetFiles];
       allSets = [...new Set(allFiles.map(item => item.name))];
@@ -94,6 +94,13 @@ export default {
         return {
           name: set,
           file: files.reduceFilesToOne(setFiles)
+        };
+      });
+      uniqueCombinedFiles = combinedFiles.map(file => {
+        return {
+          name: file.name,
+          // file: { d: { results: [...new Set(file.file.d.results)] } }
+          file: { d: { results: files.removeDuplicates(file.file.d.results) } }
         };
       });
     }

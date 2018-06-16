@@ -17,6 +17,18 @@ export default {
     return { d: { results: aFilesReduced } };
   },
 
+  removeDuplicates: function(arr: any) {
+    return arr.reduce((accum: any, current: any) => {
+      const found = accum.some(
+        (element: any) => current.__metadata.id === element.__metadata.id
+      );
+      if (!found) {
+        accum.push(current);
+      }
+      return accum;
+    }, []);
+  },
+
   parseLocalUri: (localUri: string) => {
     return `webapp/${localUri
       .split("/")
