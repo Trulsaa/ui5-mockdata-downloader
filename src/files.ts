@@ -3,12 +3,12 @@ import fs from "fs";
 import path from "path";
 
 export default {
-  reduceFilesToOne: (aFiles: any) => {
-    const aFilesReduced = aFiles.reduce((acum: any, cur: any, i: any) => {
+  reduceFilesToOne: (files: any) => {
+    const filesReduced = files.reduce((acum: any, cur: any, i: any) => {
       acum.push(...cur.d.results);
       return acum;
     }, []);
-    return { d: { results: aFilesReduced } };
+    return { d: { results: filesReduced } };
   },
 
   removeDuplicates: function(arr: any) {
