@@ -1,36 +1,10 @@
+import { RawSource, ParsedXML } from "./interfaces";
 import { pd } from "pretty-data";
 
 import files from "./files";
 import download from "./download";
 import parse from "./parse";
 import api from "./api";
-
-interface RawSource {
-  uri: string;
-  type: string;
-  settings: {
-    odataVersion: string;
-    localUri: string;
-  };
-}
-
-interface Map {
-  parsedAssosiationSets: [
-    {
-      EntitySet: string;
-      Role: string;
-      association: string;
-      name: string;
-    }
-  ];
-  parsedAssosiations: [
-    {
-      Name: string;
-      Role: string;
-      Type: string;
-    }
-  ];
-}
 
 export default {
   downloadAllFromSource: async function(source: RawSource) {

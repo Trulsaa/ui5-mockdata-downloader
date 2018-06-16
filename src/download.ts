@@ -1,19 +1,7 @@
+import {DownloadParams} from "./interfaces"
 import fs from "fs";
 import base64 from "base-64";
 import request from "request-promise-native";
-
-interface DownloadParams {
-  name: string;
-  params: string;
-  path?: string;
-  nameSpace?: string;
-  url?: string;
-  username?: string;
-  password?: string;
-  protocol?: string;
-  domainName?: string;
-  json?: boolean;
-}
 
 export default {
   startDownload: ({

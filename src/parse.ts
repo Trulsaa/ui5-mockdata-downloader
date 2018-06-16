@@ -1,110 +1,11 @@
 import { parseString } from "xml2js";
-
-interface NavigationProperty {
-  name: string;
-  url: string;
-}
-interface Map {
-  parsedAssosiationSets: [
-    {
-      EntitySet: string;
-      Role: string;
-      association: string;
-      name: string;
-    }
-  ];
-  parsedAssosiations: [
-    {
-      Name: string;
-      Role: string;
-      Type: string;
-    }
-  ];
-}
-
-interface RawSource {
-  uri: string;
-  type: string;
-  settings: {
-    odataVersion: string;
-    localUri: string;
-  };
-}
-
-interface EntityType {
-  $: {
-    Name: string;
-  };
-  NavigationProperty: [NavProp];
-  Key: [{ PropertyRef: [{ $: { Name: string } }] }];
-}
-
-interface FileProps {
-  file: string;
-  name: string;
-}
-
-interface FileJson {
-  file: {
-    d: {
-      results: [any];
-    };
-  };
-  name: string;
-}
-
-interface EntitySet {
-  $: {
-    Name: string;
-    EntityType: string;
-  };
-}
-
-interface AssociationSet {
-  $: {
-    Association: string;
-    Name: string;
-  };
-  End: [AssociationSetEnd];
-}
-
-interface NavProp {
-  $: {
-    Name: string;
-  };
-}
-
-interface AssociationSetEnd {
-  $: {
-    EntitySet: string;
-    Role: string;
-  };
-}
-
-interface AssociationEnd {
-  $: {
-    Role: string;
-    Type: string;
-  };
-}
-
-interface ParsedXML {
-  "edmx:Edmx": {
-    "edmx:DataServices": [
-      {
-        Schema: [
-          {
-            EntityType: [EntityType];
-            EntityContainer: [
-              { EntitySet: [EntitySet]; AssociationSet: [AssociationSet] }
-            ];
-            Association: [{ $: { Name: string }; End: [AssociationEnd] }];
-          }
-        ];
-      }
-    ];
-  };
-}
+import {
+  ParsedXML,
+  FileJson,
+  Map,
+  NavigationProperty,
+  RawSource
+} from "./interfaces";
 
 export default {
   entityTypes: function(metadataJSON: ParsedXML) {
@@ -204,7 +105,7 @@ export default {
         set => set.Role === association.Role
       );
       if (associationSet) {
-        return associationSet.EntitySet
+        return associationSet.EntitySet;
       }
     }
   },
@@ -238,14 +139,6 @@ export default {
       }
     };
   },
-  // {
-  //   "uri": "/sap/opu/odata/sap/ZZHR_SUBSTITUTIONS_SRV/",
-  //   "type": "OData",
-  //   "settings": {
-  //     "odataVersion": "2.0",
-  //     "localUri": "localService/ZZHR_SUBSTITUTIONS_SRV/metadata.xml"
-  //   }
-  // }
 
   XML: (xml: string): ParsedXML | null => {
     let oJson = null;

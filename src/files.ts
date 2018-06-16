@@ -1,12 +1,6 @@
+import { WriteFileParams } from "./interfaces";
 import fs from "fs";
 import path from "path";
-
-interface WriteFileParams {
-  content: string;
-  folderPath: string;
-  name: string;
-  filetype?: string;
-}
 
 export default {
   reduceFilesToOne: (aFiles: any) => {

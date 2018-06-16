@@ -1,30 +1,8 @@
+import{ ParsedSource, ParsedEntityType, NavigationDownloadProperty } from "./interfaces";
 import download from "./download";
 
-interface EntityType {
-  name: string;
-  entityType: string;
-  nameSpace: string;
-}
-
-interface ParseSource {
-  uri: string;
-  path: string;
-  nameSpace: string;
-  type: string;
-  settings: {
-    odataVersion: string;
-    localUri: string;
-  };
-}
-
-interface NavigationProperty {
-  name: string;
-  set: string;
-  url: string;
-}
-
 export default {
-  getMetadata: (parsedSource: ParseSource) => {
+  getMetadata: (parsedSource: ParsedSource) => {
     // Download metadata
     const metadataParamseters = {
       name: "metadata",
@@ -38,8 +16,8 @@ export default {
   },
 
   createEntityDownloadParams: function(
-    entityTypes: EntityType[],
-    parsedSource: ParseSource
+    entityTypes: ParsedEntityType[],
+    parsedSource: ParsedSource
   ) {
     return entityTypes.map(set => {
       return {
@@ -52,8 +30,8 @@ export default {
   },
 
   getEntitySets: function(
-    entityTypes: EntityType[],
-    parsedSource: ParseSource
+    entityTypes: ParsedEntityType[],
+    parsedSource: ParsedSource
   ) {
     const entityParameters = this.createEntityDownloadParams(
       entityTypes,
@@ -63,8 +41,8 @@ export default {
   },
 
   createNavParameters: function(
-    navigationPropertys: NavigationProperty[],
-    parsedSource: ParseSource
+    navigationPropertys: NavigationDownloadProperty[],
+    parsedSource: ParsedSource
   ) {
     return navigationPropertys.map(nav => {
       return {
@@ -76,8 +54,8 @@ export default {
   },
 
   getNavigationSets: function(
-    navigationPropertys: NavigationProperty[],
-    parsedSource: ParseSource
+    navigationPropertys: NavigationDownloadProperty[],
+    parsedSource: ParsedSource
   ) {
     const navParameters = this.createNavParameters(
       navigationPropertys,
