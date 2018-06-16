@@ -76,11 +76,27 @@ export default {
     }
 
     // Download all navigations
-    const navigationFiles = await api.getNavigationSets(navigations, parsedSource);
+    const navigationFiles = await api.getNavigationSets(
+      navigations,
+      parsedSource
+    );
 
-    // kombinere set
+    // Combine the sets
+    let allFiles: any[], allSets, combinedFiles;
+    if (entitySetFiles) {
+      allFiles = [...navigationFiles, ...entitySetFiles];
+      allSets = [...new Set(allFiles.map(item => item.name))];
 
-
+      combinedFiles = allSets.map(set => {
+        const setFiles = allFiles
+          .filter(file => file.name === set)
+          .map(file => file.file);
+        return {
+          name: set,
+          file: files.reduceFilesToOne(setFiles)
+        };
+      });
+    }
     //
     // Write files
     //

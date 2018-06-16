@@ -9,8 +9,8 @@ interface WriteFileParams {
 }
 
 export default {
-  reduceFilesToOne: (aFiles: [{ d: { results: [never] } }]) => {
-    const aFilesReduced = aFiles.reduce((acum, cur, i) => {
+  reduceFilesToOne: (aFiles: any) => {
+    const aFilesReduced = aFiles.reduce((acum: any, cur: any, i: any) => {
       acum.push(...cur.d.results);
       return acum;
     }, []);
