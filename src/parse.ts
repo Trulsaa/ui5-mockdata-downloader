@@ -2,7 +2,7 @@ import { parseString } from "xml2js";
 import {
   ParsedXML,
   FileJson,
-  Map,
+  NavigationMap,
   NavigationProperty,
   RawSource
 } from "./interfaces";
@@ -96,7 +96,7 @@ export default {
       }, []);
   },
 
-  setFromNavMap: function(map: Map, navigation: NavigationProperty) {
+  setFromNavMap: function(map: NavigationMap, navigation: NavigationProperty) {
     const association = map.parsedAssosiations.find(ass =>
       ass.Type.includes(navigation.name)
     );

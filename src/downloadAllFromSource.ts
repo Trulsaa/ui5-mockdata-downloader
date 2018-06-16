@@ -1,4 +1,4 @@
-import { RawSource, ParsedXML } from "./interfaces";
+import { RawSource, ParsedXML, NavigationMap } from "./interfaces";
 import { pd } from "pretty-data";
 
 import files from "./files";
@@ -17,7 +17,7 @@ export default {
     // parse metadata file into JSON
     const metadataJSON = parse.XML(metadataFile.file);
 
-    let entitySets, navigationMap: any;
+    let entitySets, navigationMap: NavigationMap;
     if (metadataJSON) {
       // Describe all sets
       entitySets = parse.entitySet(metadataJSON);

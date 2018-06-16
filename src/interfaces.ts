@@ -42,22 +42,18 @@ export interface RawSource {
   };
 }
 
-export interface Map {
-  parsedAssosiationSets: [
-    {
-      EntitySet: string;
-      Role: string;
-      association: string;
-      name: string;
-    }
-  ];
-  parsedAssosiations: [
-    {
-      Name: string;
-      Role: string;
-      Type: string;
-    }
-  ];
+export interface NavigationMap {
+  parsedAssosiationSets: {
+    EntitySet: string;
+    Role: string;
+    association: string;
+    name: string;
+  }[];
+  parsedAssosiations: {
+    Name: string;
+    Role: string;
+    Type: string;
+  }[];
 }
 
 export interface RawSource {
@@ -83,12 +79,23 @@ export interface FileProps {
 }
 
 export interface FileJson {
-  file: {
-    d: {
-      results: [any];
-    };
-  };
+  file: File;
   name: string;
+}
+
+export interface File {
+  d: {
+    results: ResultObject[];
+  };
+}
+
+export interface ResultObject {
+  __metadata: {
+    id: string;
+  };
+  __deferred: {
+    uri: string;
+  };
 }
 
 export interface EntitySet {
@@ -144,7 +151,6 @@ export interface ParsedXML {
   };
 }
 
-
 export interface DownloadParams {
   name: string;
   params: string;
@@ -157,4 +163,3 @@ export interface DownloadParams {
   domainName?: string;
   json?: boolean;
 }
-
