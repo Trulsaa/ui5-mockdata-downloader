@@ -119,20 +119,14 @@ export default {
       filetype: "xml"
     });
 
-    // for (const file of Object.keys(allNavFiles)) {
-    //   files.writeToFile({
-    //     content: JSON.stringify(allNavFiles[file], null, 2),
-    //     folderPath: localUriParsed,
-    //     name: `${file}Set`
-    //   });
-    // }
-
-    // aEntityTypes.forEach((entity, i: number) => {
-    //   files.writeToFile({
-    //     content: JSON.stringify(setFiles[i], null, 2),
-    //     folderPath: localUriParsed,
-    //     name: `${entity.Name}Set`
-    //   });
-    // });
+    if (uniqueCombinedFiles) {
+      for (const file of uniqueCombinedFiles) {
+        files.writeToFile({
+          content: JSON.stringify(file.file, null, 2),
+          folderPath: localUriParsed,
+          name: file.name
+        });
+      }
+    }
   }
 };

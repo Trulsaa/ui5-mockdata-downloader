@@ -5,7 +5,7 @@ interface WriteFileParams {
   content: string;
   folderPath: string;
   name: string;
-  filetype: string;
+  filetype?: string;
 }
 
 export default {
