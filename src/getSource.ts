@@ -1,18 +1,24 @@
 import { RawSource, ParsedXML, NavigationMap } from "./interfaces";
 import { pd } from "pretty-data";
 
-import { handleError } from "./errorHandling";
+import handleError from "./errorHandling";
 import files from "./files";
 import download from "./download";
 import parse from "./parse";
 import api from "./api";
 
 export default async function(source: RawSource) {
+  const counters: { downloads: number; files: number } = {
+    downloads: 0,
+    files: 0
+  };
+
   // Parse source
   const parsedSource = parse.source(source);
 
   // Download metadata.xml
   const metadataFile = await api.getMetadata(parsedSource);
+  counters.downloads++
 
   // parse metadata file into JSON
   const metadataJSON = parse.XML(metadataFile.file);
@@ -34,6 +40,7 @@ export default async function(source: RawSource) {
   } else {
     console.log(`entitySets is ${entitySets}`);
   }
+  counters.downloads = counters.downloads + entitySetFiles.length
 
   // Get all Navigations and add type
   let navigations;
@@ -54,6 +61,7 @@ export default async function(source: RawSource) {
     navigations,
     parsedSource
   );
+  counters.downloads = counters.downloads + navigationFiles.length
 
   // Combine the sets and remove duplicates
   let allFiles: any[], allSets, combinedFiles, uniqueCombinedFiles;
@@ -88,6 +96,7 @@ export default async function(source: RawSource) {
     files.createDirIfNonExistant(localUriParsed),
     "Unable to create directorys"
   );
+  counters.files++
 
   // save metadata.xml
   handleError(
@@ -112,4 +121,6 @@ export default async function(source: RawSource) {
       );
     }
   }
+  counters.files = counters.files + uniqueCombinedFiles.length
+  return counters
 }
