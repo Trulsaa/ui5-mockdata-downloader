@@ -1,4 +1,4 @@
-import {DownloadParams} from "./interfaces"
+import { DownloadParams } from "./interfaces";
 import fs from "fs";
 import base64 from "base-64";
 import request from "request-promise-native";
@@ -15,7 +15,9 @@ export default {
     domainName = process.env.SAPDOMAINNAME,
     json = true
   }: DownloadParams) => {
-    url = url ? `${protocol}${url}${params}` : `${protocol}${domainName}${path}/${nameSpace}/${params}`;
+    url = url
+      ? `${protocol}${url}${params}`
+      : `${protocol}${domainName}${path}/${nameSpace}/${params}`;
 
     const options = {
       method: "GET",

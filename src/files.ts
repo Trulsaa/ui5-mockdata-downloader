@@ -50,7 +50,7 @@ export default {
     name,
     filetype = "json"
   }: WriteFileParams) {
-    fsPromises.writeFile(
+    return fsPromises.writeFile(
       path.resolve(folderPath, `${name}.${filetype}`),
       content
     );

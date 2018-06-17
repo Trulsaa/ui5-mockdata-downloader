@@ -1,7 +1,6 @@
 import { Counters, RawSource, ParsedXML, NavigationMap } from "./interfaces";
 import { pd } from "pretty-data";
 
-import handleError from "./errorHandling";
 import files from "./files";
 import download from "./download";
 import parse from "./parse";
@@ -92,33 +91,40 @@ export default async function(source: RawSource) {
   //
   // Create dir to store all source files
   const localUriParsed = parse.localUri(parsedSource.settings.localUri);
-  await handleError(
-    files.createDirIfNonExistant(localUriParsed),
-    "Unable to create directorys"
-  );
+  await files.createDirIfNonExistant(localUriParsed).catch(function(err) {
+    console.log("Unable to create directorys");
+    console.error(err);
+    process.exit(1);
+  });
   counters.files++;
 
   // save metadata.xml
-  handleError(
-    files.writeToFile({
+  files
+    .writeToFile({
       content: pd.xml(metadataFile.file),
       folderPath: localUriParsed,
       name: "metadata",
       filetype: "xml"
-    }),
-    "Unable to save metadata file"
-  );
+    })
+    .catch(function(err) {
+      console.log("Unable to save metadata file");
+      console.error(err);
+      process.exit(1);
+    });
 
   if (uniqueCombinedFiles) {
     for (const file of uniqueCombinedFiles) {
-      handleError(
-        files.writeToFile({
+      files
+        .writeToFile({
           content: JSON.stringify(file.file, null, 2),
           folderPath: localUriParsed,
           name: file.name
-        }),
-        `Unable to save ${file.name} file`
-      );
+        })
+        .catch(function(err) {
+          console.log(`Unable to save ${file.name} file`);
+          console.error(err);
+          process.exit(1);
+        });
     }
   }
   counters.files = counters.files + uniqueCombinedFiles.length;
