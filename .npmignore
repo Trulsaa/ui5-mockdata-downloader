@@ -1,0 +1,10 @@
+.tern-port
+.env
+.eslintrc
+.gitignore
+.DS_Store
+webapp/
+src/
+lib/*.js.map
+!lib/*.d.ts
+tsconfig.json
