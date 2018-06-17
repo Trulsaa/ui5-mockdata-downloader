@@ -1,3 +1,8 @@
+export interface Counters {
+  downloads: number;
+  files: number;
+}
+
 export interface WriteFileParams {
   content: string;
   folderPath: string;
