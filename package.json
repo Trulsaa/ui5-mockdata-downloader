@@ -1,14 +1,19 @@
 {
   "name": "ui5-mockdata-downloader",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "",
   "main": "lib/index.js",
   "types": "lib/index",
+  "homepage": "https://github.com/Trulsaa/ui5-mockdata-downloader",
+  "bugs": {
+    "url": "https://github.com/Trulsaa/ui5-mockdata-downloader/issues"
+  },
   "bin": {
     "ui5-mockdata-downloader": "lib/cmd.js"
   },
   "scripts": {
-    "debugg": "tsc && node --require ts-node/register --inspect-brk ./src/cmd.ts",
+    "debugg":
+      "tsc && node --require ts-node/register --inspect-brk ./src/cmd.ts",
     "tsc": "tsc"
   },
   "author": "Truls Aagaard",
