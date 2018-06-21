@@ -11,13 +11,13 @@ export default {
     url,
     username = process.env.SAPUSERNAME,
     password = process.env.SAPPASSWORD,
-    protocol = "https://",
+    protocol,
     domainName = process.env.SAPDOMAINNAME,
     json = true
   }: DownloadParams) => {
     url = url
-      ? `${protocol}${url}${params}`
-      : `${protocol}${domainName}${path}/${nameSpace}/${params}`;
+      ? `${protocol}://${url}${params}`
+      : `${protocol}://${domainName}${path}/${nameSpace}/${params}`;
 
     const options = {
       method: "GET",

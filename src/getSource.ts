@@ -1,4 +1,4 @@
-import { Counters, RawSource, ParsedXML, NavigationMap } from "./interfaces";
+import { Counters, RawSource, ParsedXML, NavigationMap, Params } from "./interfaces";
 import { pd } from "pretty-data";
 
 import files from "./files";
@@ -6,7 +6,7 @@ import download from "./download";
 import parse from "./parse";
 import api from "./api";
 
-export default async function(source: RawSource) {
+export default async function(source: RawSource, params: Params) {
   const counters: Counters = {
     downloads: 0,
     files: 0
@@ -16,7 +16,7 @@ export default async function(source: RawSource) {
   const parsedSource = parse.source(source);
 
   // Download metadata.xml
-  const metadataFile = await api.getMetadata(parsedSource);
+  const metadataFile = await api.getMetadata(parsedSource, params);
   counters.downloads++;
 
   // parse metadata file into JSON
@@ -35,7 +35,7 @@ export default async function(source: RawSource) {
   // Download all sets
   let entitySetFiles;
   if (entitySets) {
-    entitySetFiles = await api.getEntitySets(entitySets, parsedSource);
+    entitySetFiles = await api.getEntitySets(entitySets, parsedSource, params);
   } else {
     console.log(`entitySets is ${entitySets}`);
   }
@@ -58,7 +58,8 @@ export default async function(source: RawSource) {
   // Download all navigations
   const navigationFiles = await api.getNavigationSets(
     navigations,
-    parsedSource
+    parsedSource,
+    params
   );
   counters.downloads = counters.downloads + navigationFiles.length;
 

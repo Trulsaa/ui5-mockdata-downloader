@@ -168,3 +168,8 @@ export interface DownloadParams {
   domainName?: string;
   json?: boolean;
 }
+export interface Params {
+  language?: string;
+  client?: number;
+  protocol?: string;
+}

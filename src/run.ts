@@ -1,10 +1,10 @@
-import { Counters } from "./interfaces";
+import { Counters, Params } from "./interfaces";
 import getSource from "./getSource";
 const manifest = require(process.cwd() + "/webapp/manifest.json");
 
 require("dotenv").config();
 
-export default async () => {
+export default async (params: Params) => {
   // Start timer
   console.time("");
 
@@ -15,7 +15,7 @@ export default async () => {
   let sourcePromises = [];
   const start = process.hrtime();
   for (const source of aSourceNames) {
-    sourcePromises.push(getSource(oSources[source]));
+    sourcePromises.push(getSource(oSources[source], params));
   }
   const counters = await Promise.all(sourcePromises).catch(function(err) {
     console.log("Something went wrong");
