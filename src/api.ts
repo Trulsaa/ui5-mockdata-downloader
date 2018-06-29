@@ -22,8 +22,8 @@ export default {
   },
 
   _getParams: function(params: Params) {
-    const language = params.language ? params.language : "En";
-    const client = params.client ? params.client : 200;
+    const language = params.language ? params.language : "EN";
+    const client = params.client ? params.client : "200";
     return `/?$format=json&sap-client=${client}&sap-language=${language}`;
   },
 

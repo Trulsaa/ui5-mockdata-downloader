@@ -110,8 +110,12 @@ export default {
     }
   },
 
-  localUri: (localUri: string) => {
-    return `webapp/${localUri
+  _getAppDir: function(dir) {
+    return dir ? dir : "webapp";
+  },
+
+  localUri: function(localUri: string, dir: string) {
+    return `${this._getAppDir(dir)}/${localUri
       .split("/")
       .splice(0, localUri.split("/").length - 1)
       .join("/")}`;

@@ -172,4 +172,5 @@ export interface Params {
   language?: string;
   client?: number;
   protocol?: string;
+  appDir: string;
 }

@@ -1,4 +1,10 @@
-import { Counters, RawSource, ParsedXML, NavigationMap, Params } from "./interfaces";
+import {
+  Counters,
+  RawSource,
+  ParsedXML,
+  NavigationMap,
+  Params
+} from "./interfaces";
 import { pd } from "pretty-data";
 
 import files from "./files";
@@ -91,7 +97,10 @@ export default async function(source: RawSource, params: Params) {
   // Write files
   //
   // Create dir to store all source files
-  const localUriParsed = parse.localUri(parsedSource.settings.localUri);
+  const localUriParsed = parse.localUri(
+    parsedSource.settings.localUri,
+    params.appDir
+  );
   await files.createDirIfNonExistant(localUriParsed).catch(function(err) {
     console.log("Unable to create directorys");
     console.error(err);

@@ -1,16 +1,32 @@
 #!/usr/bin/env node
-import flags from "flags";
+import program from "commander";
 import { Params } from "./interfaces";
+const version = require("../package.json").version;
 
-flags.defineString("language");
-flags.defineInteger("client");
-flags.defineString("protocol");
-flags.parse();
+program
+  .version(version)
+  .option("-l, --language <language>", "language code", "EN")
+  .option("-c, --client <client>", "client number", "200")
+  .option(
+    "-p, --protocol <protocol>",
+    "protocol: http or https",
+    /^(http|https)$/i,
+    "https"
+  )
+  .option("-d, --app-dir <dir>", "app directory", "webapp")
+  .parse(process.argv);
+
+console.log(
+  `Using: language '${program.language}', client '${
+    program.client
+  }', protocol '${program.protocol}' and app directory '${program.appDir}'`
+);
 
 const params: Params = {
-  language: flags.get("language"),
-  client: flags.get("client"),
-  protocol: flags.get("protocol")
+  language: program.language,
+  client: program.client,
+  protocol: program.protocol,
+  appDir: program.appDir
 };
 
 import run from "./run";
