@@ -49,7 +49,8 @@ export default async function(source: RawSource, params: Params) {
 
   // Get all Navigations and add type
   let navigations;
-  if (entitySetFiles) {
+  let navigationFiles = [];
+  if (entitySetFiles && navigationMap) {
     navigations = parse
       .navigations(entitySetFiles)
       .map((nav: { name: string; url: string }) => {
@@ -59,14 +60,15 @@ export default async function(source: RawSource, params: Params) {
           set: parse.setFromNavMap(navigationMap, nav)
         };
       });
+
+    // Download all navigations
+    navigationFiles = await api.getNavigationSets(
+      navigations,
+      parsedSource,
+      params
+    );
   }
 
-  // Download all navigations
-  const navigationFiles = await api.getNavigationSets(
-    navigations,
-    parsedSource,
-    params
-  );
   counters.downloads = counters.downloads + navigationFiles.length;
 
   // Combine the sets and remove duplicates

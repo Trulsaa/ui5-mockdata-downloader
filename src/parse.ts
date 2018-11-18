@@ -40,30 +40,34 @@ export default {
   associationMap: function(metadataJSON: ParsedXML) {
     const associations =
       metadataJSON["edmx:Edmx"]["edmx:DataServices"][0].Schema[0].Association;
-    const parsedAssosiations = associations.map(ass => {
-      return {
-        Name: ass.$.Name,
-        Role: ass.End[1].$.Role,
-        Type: ass.End[1].$.Type
-      };
-    });
+    if (associations) {
+      const parsedAssosiations = associations.map(ass => {
+        return {
+          Name: ass.$.Name,
+          Role: ass.End[1].$.Role,
+          Type: ass.End[1].$.Type
+        };
+      });
 
-    const associationSets =
-      metadataJSON["edmx:Edmx"]["edmx:DataServices"][0].Schema[0]
-        .EntityContainer[0].AssociationSet;
-    const parsedAssosiationSets = associationSets.map(set => {
-      return {
-        association: set.$.Association,
-        name: set.$.Name,
-        EntitySet: set.End[1].$.EntitySet,
-        Role: set.End[1].$.Role
-      };
-    });
+      const associationSets =
+        metadataJSON["edmx:Edmx"]["edmx:DataServices"][0].Schema[0]
+          .EntityContainer[0].AssociationSet;
+      const parsedAssosiationSets = associationSets.map(set => {
+        return {
+          association: set.$.Association,
+          name: set.$.Name,
+          EntitySet: set.End[1].$.EntitySet,
+          Role: set.End[1].$.Role
+        };
+      });
 
-    return {
-      parsedAssosiations,
-      parsedAssosiationSets
-    };
+      return {
+        parsedAssosiations,
+        parsedAssosiationSets
+      };
+    } else {
+      return;
+    }
   },
 
   _getNavigations: function(result: any[]) {
