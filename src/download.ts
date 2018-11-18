@@ -9,10 +9,10 @@ export default {
     nameSpace,
     params,
     url,
-    username = process.env.SAPUSERNAME,
-    password = process.env.SAPPASSWORD,
+    username,
+    password,
     protocol,
-    domainName = process.env.SAPDOMAINNAME,
+    domainName,
     json = true
   }: DownloadParams) => {
     url = url

@@ -2,8 +2,6 @@ import { Counters, Params } from "./interfaces";
 import getSource from "./getSource";
 const manifest = require(process.cwd() + "/webapp/manifest.json");
 
-require("dotenv").config();
-
 export default async (params: Params) => {
   // Start timer
   console.time("");

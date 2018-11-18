@@ -162,10 +162,10 @@ export interface DownloadParams {
   path?: string;
   nameSpace?: string;
   url?: string;
-  username?: string;
-  password?: string;
+  username?: string | {};
+  password?: string | {};
+  domainName?: string | {};
   protocol?: string;
-  domainName?: string;
   json?: boolean;
 }
 export interface Params {
@@ -173,4 +173,7 @@ export interface Params {
   client?: number;
   protocol?: string;
   appDir: string;
+  username?: string | {};
+  password?: string | {};
+  domainName?: string | {};
 }

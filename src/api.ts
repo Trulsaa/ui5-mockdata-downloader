@@ -15,7 +15,10 @@ export default {
       nameSpace: parsedSource.nameSpace,
       params: "$metadata",
       protocol: this._getProtocol(params),
-      json: false
+      json: false,
+      username: params.username,
+      password: params.password,
+      domainName: params.domainName
     };
 
     return download.file(metadataParamseters);
@@ -42,7 +45,10 @@ export default {
         nameSpace: parsedSource.nameSpace,
         params: `${set.name}${this._getParams(params)}`,
         name: set.name,
-        protocol: this._getProtocol(params)
+        protocol: this._getProtocol(params),
+        username: params.username,
+        password: params.password,
+        domainName: params.domainName
       };
     });
   },
